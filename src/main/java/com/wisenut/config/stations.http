@@ -1,0 +1,7 @@
+
+###
+GET /v2/local/search/keyword.json?query=회현역&radius=10000&size=1
+Host: dapi.kakao.com
+Authorization: KakaoAK 16f5ec4b14099cdd9a3f2f6a0794b45e
+
+
