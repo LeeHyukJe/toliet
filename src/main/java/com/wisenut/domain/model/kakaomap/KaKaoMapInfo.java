@@ -1,35 +1,32 @@
-package com.wisenut.domain.impl;
+package com.wisenut.domain.model.kakaomap;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.wisenut.domain.IMapInfo;
-import com.wisenut.domain.dtos.KaKaoMapInfoDTO;
+import com.wisenut.domain.model.IMapInfo;
 import lombok.Getter;
 import lombok.ToString;
 import lombok.extern.java.Log;
 
 import org.springframework.stereotype.Component;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-
-import java.net.URL;
-import java.net.URLEncoder;
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 
 @Component
 @ToString
 @Getter
 @Log
+@Entity
 public class KaKaoMapInfo implements IMapInfo {
+    @Id
+    @GeneratedValue
+    private Long id;
+
     private String address_name;
     private String category_group_code;
     private String category_group_name;
     private String category_name;
     private String distance;
-    private int id;
     private String phone;
     private String place_name;
     private String place_url;

@@ -1,7 +1,7 @@
-package com.wisenut.domain.impl;
+package com.wisenut.domain.model.kakaomap;
 
-import com.wisenut.domain.IMapOffer;
-import com.wisenut.domain.IUser;
+import com.wisenut.domain.model.IMapOffer;
+import com.wisenut.domain.model.IUser;
 import org.springframework.stereotype.Component;
 
 @Component

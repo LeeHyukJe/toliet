@@ -1,9 +1,9 @@
-package com.wisenut.domain.impl;
+package com.wisenut.domain.model.kakaomap;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.wisenut.domain.IMapInfo;
-import com.wisenut.domain.IMapOffer;
+import com.wisenut.domain.model.IMapInfo;
+import com.wisenut.domain.model.IMapOffer;
 import lombok.Getter;
 import lombok.extern.java.Log;
 import org.jsoup.Connection;
@@ -50,7 +50,7 @@ public class KaKaoMapOffer implements IMapOffer {
     웹 상에서 해당 정보를 크롤링하여 DB에 적재
      */
     @Override
-    public void collectMapInfo() {
+    public List<String> collectMapInfo() {
         try {
             String url = "https://namu.wiki/w/%EA%B0%9C%EC%B0%B0%EA%B5%AC%20%EC%95%88%EC%97%90%20%ED%99%94%EC%9E%A5%EC%8B%A4%EC%9D%B4%20%EC%9E%88%EB%8A%94%20%EC%97%AD";
             Connection connection = Jsoup.connect(url);
@@ -74,12 +74,14 @@ public class KaKaoMapOffer implements IMapOffer {
             Collections.sort(tolietInStations);
             System.out.println(tolietInStations.stream().distinct().collect(Collectors.toList()));
 
-            // TODO DB에 insert
-            tolietInStations.stream().distinct().collect(Collectors.toList());
+
+            List<String> toiletInStation = tolietInStations.stream().distinct().collect(Collectors.toList());
+            return toiletInStation;
 
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+            return null;
         }
     }
 
@@ -92,7 +94,8 @@ public class KaKaoMapOffer implements IMapOffer {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
             connection.setRequestMethod("GET");
-            connection.setRequestProperty("Authorization", kakaoMapKey +" "+ kakaoMapValue);
+            //connection.setRequestProperty("Authorization", kakaoMapKey +" "+ kakaoMapValue);
+            connection.setRequestProperty("Authorization", "KakaoAK"+" "+"16f5ec4b14099cdd9a3f2f6a0794b45e");
 
 
             int responseCode = connection.getResponseCode();
@@ -108,7 +111,6 @@ public class KaKaoMapOffer implements IMapOffer {
             objectMapper = new ObjectMapper();
             KaKaoMapOffer kaKaoMapOffer= objectMapper.readValue(sb.toString(),KaKaoMapOffer.class);
             this.documents = kaKaoMapOffer.getDocuments();
-            log.info(documents.toString());
 
         }catch (Exception e){
             e.printStackTrace();
@@ -125,7 +127,11 @@ public class KaKaoMapOffer implements IMapOffer {
     @Override
     public List<? extends IMapInfo> searchStation(String stationName) {
         getToiletInfoByStationNameFromAPI(stationName);
-
         return documents;
+    }
+
+    public List<Integer> distance(List<? extends IMapInfo> infos){
+
+        return null;
     }
 }
