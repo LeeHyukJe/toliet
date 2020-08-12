@@ -94,8 +94,7 @@ public class KaKaoMapOffer implements IMapOffer {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
             connection.setRequestMethod("GET");
-            //connection.setRequestProperty("Authorization", kakaoMapKey +" "+ kakaoMapValue);
-            connection.setRequestProperty("Authorization", "KakaoAK"+" "+"16f5ec4b14099cdd9a3f2f6a0794b45e");
+            connection.setRequestProperty("Authorization", kakaoMapKey +" "+ kakaoMapValue);
 
 
             int responseCode = connection.getResponseCode();
