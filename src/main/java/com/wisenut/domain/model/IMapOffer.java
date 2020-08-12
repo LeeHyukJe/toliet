@@ -1,11 +1,9 @@
-package com.wisenut.domain;
-
-import com.wisenut.domain.impl.KaKaoMapOffer;
+package com.wisenut.domain.model;
 
 import java.util.List;
 
 public interface IMapOffer {
-    void collectMapInfo();
+    List<String> collectMapInfo();
 
     // 카카오 API로부터 해당 역의 정보를 얻어오기
     void getToiletInfoByStationNameFromAPI(String stationName);
