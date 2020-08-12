@@ -1,5 +1,6 @@
-package com.wisenut.domain.application;
+package com.wisenut.domain.application.impl;
 
+import com.wisenut.domain.application.ToiletStationService;
 import com.wisenut.domain.model.IMapInfo;
 import com.wisenut.domain.model.IMapOffer;
 import com.wisenut.domain.model.IUser;
