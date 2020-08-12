@@ -12,6 +12,11 @@
 </body>
 
 <script>
+
+
+</script>
+
+<script>
     var mapContainer = document.getElementById('map'), // 지도를 표시할 div
         mapOption = {
             center: new kakao.maps.LatLng(37.58, 126.93), // 지도의 중심좌표
@@ -29,11 +34,23 @@
             var lat = position.coords.latitude, // 위도
                 lon = position.coords.longitude; // 경도
 
-            var locPosition = new kakao.maps.LatLng(37.587280490216145, 126.93389041562465), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+            var locPosition = new kakao.maps.LatLng(lat, lon), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
                 message = '<div style="padding:5px;">여기에 계신가요?!</div>'; // 인포윈도우에 표시될 내용입니다
 
             // 마커와 인포윈도우를 표시합니다
             displayMarker(locPosition, message);
+
+            var linePath=[
+                new daum.maps.LatLng(lat,lon),
+                new daum.maps.LatLng(37.587280490216145,126.93389041562465),
+                new daum.maps.LatLng(37.587280490216140,126.93389041562455)
+            ]
+
+            var polyline = new daum.maps.Polyline({
+                path:linePath,
+            });
+            var distance = polyline.getLength();
+            console.log(distance);
 
         });
 
