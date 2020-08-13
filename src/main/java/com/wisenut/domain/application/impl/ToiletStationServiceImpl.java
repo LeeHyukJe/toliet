@@ -4,21 +4,29 @@ import com.wisenut.domain.application.ToiletStationService;
 import com.wisenut.domain.model.IMapInfo;
 import com.wisenut.domain.model.IMapOffer;
 import com.wisenut.domain.model.IUser;
+import com.wisenut.domain.model.kakaomap.KaKaoMapInfo;
+import com.wisenut.domain.model.kakaomap.KaKaoMapInfoRepository;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 
 @Service
+@Transactional
 public class ToiletStationServiceImpl implements ToiletStationService {
 
     private IUser iUser;
     private IMapOffer iMapOffer;
+    private KaKaoMapInfoRepository kaKaoMapInfoRepository;
 
-    public ToiletStationServiceImpl(IUser iUser, IMapOffer iMapOffer){
+    public ToiletStationServiceImpl(IUser iUser, IMapOffer iMapOffer,
+                                    KaKaoMapInfoRepository kaKaoMapInfoRepository){
         this.iUser = iUser;
         this.iMapOffer = iMapOffer;
+        this.kaKaoMapInfoRepository = kaKaoMapInfoRepository;
     }
 
     /**
@@ -27,9 +35,13 @@ public class ToiletStationServiceImpl implements ToiletStationService {
     @Override
     public void createToiletStation() {
         List<String> stationNames = iMapOffer.collectMapInfo();
+        List<KaKaoMapInfo> list = new ArrayList<>();
         for(String name: stationNames){
-            List<? extends IMapInfo> iMapInfo = search(name);
+            //List<? extends IMapInfo> iMapInfo = search(name).get(0);
+            //list.add((KaKaoMapInfo) search(name).get(0));
+            kaKaoMapInfoRepository.save((KaKaoMapInfo) search(name).get(0));
         }
+        //kaKaoMapInfoRepository.saveAll(list);
     }
 
     @Override
