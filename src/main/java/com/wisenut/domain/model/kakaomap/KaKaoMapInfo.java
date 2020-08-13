@@ -1,8 +1,7 @@
 package com.wisenut.domain.model.kakaomap;
 
 import com.wisenut.domain.model.IMapInfo;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 import lombok.extern.java.Log;
 
 import org.springframework.stereotype.Component;
@@ -17,6 +16,9 @@ import javax.persistence.Id;
 @Getter
 @Log
 @Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class KaKaoMapInfo implements IMapInfo {
     @Id
     @GeneratedValue
