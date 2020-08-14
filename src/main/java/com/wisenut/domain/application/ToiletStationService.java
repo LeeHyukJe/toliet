@@ -1,5 +1,6 @@
 package com.wisenut.domain.application;
 
+import com.wisenut.domain.application.commands.SearchCommand;
 import com.wisenut.domain.model.IMapInfo;
 
 import java.util.List;
@@ -9,6 +10,7 @@ public interface ToiletStationService {
 
     void createToiletStation();
 
-    List<? extends IMapInfo> search(String stationName);
-    IMapInfo calculateDistance (Map<String,Object> params);
+    List<? extends IMapInfo> search(SearchCommand command);
+    IMapInfo calculateDistance (SearchCommand command);
+    IMapInfo searchToiletStation(SearchCommand command);
 }
