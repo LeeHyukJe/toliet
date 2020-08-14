@@ -1,12 +1,12 @@
 package com.wisenut.domain.model.kakaomap;
 
-import com.wisenut.domain.model.IMapInfo;
-import com.wisenut.domain.model.kakaomap.KaKaoMapInfo;
+
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.util.Optional;
 
-@Repository
 public interface KaKaoMapInfoRepository extends JpaRepository<KaKaoMapInfo,Long> {
+
+    Optional<KaKaoMapInfo> findByAddressName(String addressName);
+    Optional<KaKaoMapInfo> findByPlaceNameContaining(String stationName);
 }
