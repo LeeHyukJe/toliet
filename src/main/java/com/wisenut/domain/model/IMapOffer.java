@@ -11,4 +11,6 @@ public interface IMapOffer {
     void getToiletInfoByOwnPositionFromAPI(String[] stationNames);
     // 역 명으로 위치 정보 얻기
     List<? extends IMapInfo> searchStation(String stationName);
+    // 역간 거리 계산하기
+    String calculateDistance(List<? extends IMapInfo> iMapInfos, String x, String y);
 }
