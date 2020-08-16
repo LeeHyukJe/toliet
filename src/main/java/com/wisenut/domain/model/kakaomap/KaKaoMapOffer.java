@@ -25,6 +25,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.sun.tools.doclint.Entity.theta;
+
 @Component
 @Log
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -132,5 +134,61 @@ public class KaKaoMapOffer implements IMapOffer {
     public List<Integer> distance(List<? extends IMapInfo> infos){
 
         return null;
+    }
+
+    @Override
+    public String calculateDistance(List<? extends IMapInfo> iMapInfos, String x, String y) {
+        List<KaKaoMapInfo> kakaoMapInfoList = new ArrayList(iMapInfos);
+        List<Double> temp = new ArrayList<>();
+        for(IMapInfo info : iMapInfos){
+            KaKaoMapInfo kaKaoMapInfo = (KaKaoMapInfo)info;
+            double compareX = Double.parseDouble(kaKaoMapInfo.getX()); // 경도 (longitude)
+            double compareY = Double.parseDouble(kaKaoMapInfo.getY()); // 위도 (latitude)
+
+            double compare2X = Double.parseDouble(x);
+            double compare2Y = Double.parseDouble(y);
+
+            double result = Math.sqrt((compareX-compare2X)*(compareX-compare2X) + (compareY - compare2Y) * (compareY - compare2Y));
+
+            double theta = compareX - compare2X;
+            double dist = Math.sin(deg2rad(compareY)) * Math.sin(deg2rad(compare2Y)) + Math.cos(deg2rad(compareY)) * Math.cos(deg2rad(compare2Y)) * Math.cos(deg2rad(theta));
+
+            String unit = "kilometer";
+
+            dist = Math.acos(dist);
+            dist = rad2deg(dist);
+            dist = dist * 60 * 1.1515;
+
+            if (unit == "kilometer") {
+                dist = dist * 1.609344;
+            } else if(unit == "meter"){
+                dist = dist * 1609.344;
+            }
+
+            temp.add(dist);
+        }
+
+        // 배열 리스트 중에 가장 최솟값을 구하기
+        Double min = temp.get(0);
+        int index=0;
+        for(int i=0 ; i<temp.size();i++){
+            if(Double.compare(min,temp.get(i)) > 0){
+                min = temp.get(i);
+                index = i;
+            }
+        }
+
+
+        return kakaoMapInfoList.get(index).getPlaceName();
+    }
+
+    // This function converts decimal degrees to radians
+    private static double deg2rad(double deg) {
+        return (deg * Math.PI / 180.0);
+    }
+
+    // This function converts radians to decimal degrees
+    private static double rad2deg(double rad) {
+        return (rad * 180 / Math.PI);
     }
 }
