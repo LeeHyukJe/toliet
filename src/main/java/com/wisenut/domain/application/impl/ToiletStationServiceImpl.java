@@ -39,7 +39,7 @@ public class ToiletStationServiceImpl implements ToiletStationService {
         List<String> stationNames = iMapOffer.collectMapInfo();
         List<KaKaoMapInfo> list = new ArrayList<>();
         for(String name: stationNames){
-            SearchCommand command = new SearchCommand(name);
+            SearchCommand command = new SearchCommand(name,"","","","");
             list.add((KaKaoMapInfo) search(command).get(0));
         }
         kaKaoMapInfoRepository.saveAll(list);
@@ -53,7 +53,7 @@ public class ToiletStationServiceImpl implements ToiletStationService {
     }
 
     @Override
-    public IMapInfo calculateDistance(SearchCommand command){
+    public String searchNearestStationName(SearchCommand command){
         // DB에서 해당 역 정보들 모두 가져오기
         createToiletStation();
 //        KaKaoMapInfo defaultObject = KaKaoMapInfo.builder().addressName("no_exist").build();
@@ -61,10 +61,8 @@ public class ToiletStationServiceImpl implements ToiletStationService {
         List<KaKaoMapInfo> kaKaoMapInfos = kaKaoMapInfoRepository.findAll();
 
         // DB와 현재 위치 좌표를 계산해서 가장 가까운 역 찾기 (두 점 사이의 거리 계산)
-        for(KaKaoMapInfo map : kaKaoMapInfos){
-
-        }
-        return null;
+        String result = iMapOffer.calculateDistance(kaKaoMapInfos, command.getX(), command.getY());
+        return result;
     }
 
     @Override

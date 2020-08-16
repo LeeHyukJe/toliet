@@ -11,6 +11,6 @@ public interface ToiletStationService {
     void createToiletStation();
 
     List<? extends IMapInfo> search(SearchCommand command);
-    IMapInfo calculateDistance (SearchCommand command);
+    String searchNearestStationName (SearchCommand command);
     IMapInfo searchToiletStation(SearchCommand command);
 }
