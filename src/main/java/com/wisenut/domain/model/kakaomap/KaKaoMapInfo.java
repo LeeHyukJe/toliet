@@ -20,7 +20,6 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class KaKaoMapInfo implements IMapInfo {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @JsonProperty(value = "address_name")
