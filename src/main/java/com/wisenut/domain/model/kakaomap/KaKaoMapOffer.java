@@ -25,8 +25,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.sun.tools.doclint.Entity.theta;
-
 @Component
 @Log
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -74,7 +72,7 @@ public class KaKaoMapOffer implements IMapOffer {
                 }
             }
             Collections.sort(tolietInStations);
-            System.out.println(tolietInStations.stream().distinct().collect(Collectors.toList()));
+//            System.out.println(tolietInStations.stream().distinct().collect(Collectors.toList()));
 
 
             List<String> toiletInStation = tolietInStations.stream().distinct().collect(Collectors.toList());
