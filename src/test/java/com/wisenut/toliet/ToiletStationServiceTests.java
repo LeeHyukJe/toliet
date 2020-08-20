@@ -55,4 +55,17 @@ public class ToiletStationServiceTests {
 //        Assert.assertEquals(((KaKaoMapInfo)kakaoMapInfo).getAddress_name(),"서울");
 
     }
+
+    @Test
+    public void test(){
+        String[] list = {"홍제동 홍제역, 무악동 무악재역, 창천동 독립문역"};
+        String test = "홍제역";
+
+        for(String str : list){
+            if(str.contains(test)){
+                System.out.println("포함됨!!");
+                break;
+            }
+        }
+    }
 }
