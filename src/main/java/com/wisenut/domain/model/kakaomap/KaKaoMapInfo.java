@@ -15,6 +15,7 @@ import javax.persistence.*;
 @Getter
 @Log
 @Entity
+@Table(name = "kakaomapinfo")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -40,5 +41,8 @@ public class KaKaoMapInfo implements IMapInfo {
     private String roadAddressName;
     private String x;
     private String y;
+
+    // map foreign key
+    private Long mapid;
 
 }

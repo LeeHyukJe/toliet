@@ -8,11 +8,12 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Component
 @NoArgsConstructor
 @Entity
-@Table(name = "user")
+@Table(name = "User")
 public class KakaoMapUser implements IUser {
 
     @Id
@@ -33,6 +34,10 @@ public class KakaoMapUser implements IUser {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_date", nullable = false)
     private Date createdDate;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "userid")
+    private List<KakaoMapSearch> searchList;
 
 
     @Transient

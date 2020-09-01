@@ -14,6 +14,7 @@ import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -29,14 +30,32 @@ import java.util.stream.Collectors;
 @Log
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Getter
+@Entity
+@Table(name = "Map")
 public class KaKaoMapOffer implements IMapOffer {
 
+    @Transient
     @Value("${kakaoMapKey}")
     private String kakaoMapKey;
+
+    @Transient
     @Value("${kakaoMapValue}")
     private String kakaoMapValue;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    @Column(name = "type")
+    private String type;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "mapid")
     private List<KaKaoMapInfo> documents;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "mapid")
+    private List<KakaoMapSearch> searchList;
 
     public KaKaoMapOffer(){
         super();
