@@ -7,6 +7,4 @@ import java.util.Optional;
 
 public interface KaKaoMapInfoRepository extends JpaRepository<KaKaoMapInfo,Long>, KaKaoMapInfoRepositoryCustom {
 
-    Optional<KaKaoMapInfo> findByAddressName(String addressName);
-    Optional<KaKaoMapInfo> findByPlaceNameContaining(String stationName);
 }
