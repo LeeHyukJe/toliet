@@ -1,6 +1,6 @@
 package com.wisenut.domain.model.kakaomap;
 
-import lombok.Getter;
+import lombok.*;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
@@ -8,6 +8,10 @@ import java.util.Date;
 
 @Component
 @Getter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Entity
 @Table(name = "kakaomapsearch")
 public class KakaoMapSearch {
