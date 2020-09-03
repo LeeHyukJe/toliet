@@ -3,8 +3,9 @@ package com.wisenut.toliet;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.wisenut.domain.application.ToiletStationService;
 import com.wisenut.domain.model.IMapInfo;
-import com.wisenut.domain.model.kakaomap.KaKaoMapInfo;
-import com.wisenut.domain.model.kakaomap.KaKaoMapInfoRepository;
+import com.wisenut.domain.model.IMapOffer;
+import com.wisenut.domain.model.kakaomap.*;
+import lombok.extern.log4j.Log4j2;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,12 +16,17 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static com.wisenut.domain.model.kakaomap.QKaKaoMapInfo.kaKaoMapInfo;
+import static com.wisenut.domain.model.kakaomap.QKaKaoMapOffer.kaKaoMapOffer;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 
+@Log4j2
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ToiletStationServiceTests {
@@ -30,10 +36,25 @@ public class ToiletStationServiceTests {
     @Autowired
     private KaKaoMapInfoRepository kaKaoMapInfoRepository;
     @Autowired
+    private KakaoMapOfferRepository kakaoMapOfferRepository;
+    @Autowired
+    private KaKaoMapUserRespository kaKaoMapUserRespository;
+    @Autowired
     private JPAQueryFactory queryFactory;
 
     @Before
     public void init(){
+        KakaoMapUser user = KakaoMapUser.builder()
+                .id(1l)
+                .createdDate(new Date())
+                .emailAddress("lims2733@naver.com")
+                .firstName("lee")
+                .lastName("hyukje")
+                .password("1234")
+                .username("이혁제")
+                .build();
+
+
         KaKaoMapInfo kaKaoMapInfo = KaKaoMapInfo.builder().id(21160642l).categoryGroupCode("SW8").categoryGroupName("지하철역")
                 .categoryName("교통,수송 > 지하철,전철 > 수도권4호선").phone("02-6110-4251").placeName("회현역 4호선")
                 .placeUrl("http://place.map.kakao.com/21160642").roadAddressName("서울 중구 퇴계로 지하 54")
@@ -41,7 +62,16 @@ public class ToiletStationServiceTests {
                 .x("126.97843725718793")
                 .y("37.558760244882336").build();
 
+
+//        KaKaoMapOffer kaKaoMapOffer = KaKaoMapOffer.builder()
+//                .id(2l)
+//                .type("kakamomap")
+//                .build();
+
+
+        kaKaoMapUserRespository.save(user);
         kaKaoMapInfoRepository.save(kaKaoMapInfo);
+//        kakaoMapOfferRepository.save(kaKaoMapOffer);
     }
 
     @Test
@@ -62,18 +92,6 @@ public class ToiletStationServiceTests {
 
     }
 
-    @Test
-    public void test(){
-        String[] list = {"홍제동 홍제역, 무악동 무악재역, 창천동 독립문역"};
-        String test = "홍제역";
-
-        for(String str : list){
-            if(str.contains(test)){
-                System.out.println("포함됨!!");
-                break;
-            }
-        }
-    }
 
     @Test
     public void querydsl_test1(){
@@ -88,6 +106,52 @@ public class ToiletStationServiceTests {
         // then
         Assert.assertEquals(list.size(),1);
         Assert.assertEquals(list.get(0).getPlaceName(),name);
+
+    }
+
+    @Transactional
+    @Test
+    public void querydsl_test2(){
+        // given
+        KaKaoMapInfo kaKaoMapInfo = KaKaoMapInfo.builder().id(21160642l).categoryGroupCode("SW8").categoryGroupName("지하철역")
+                .categoryName("교통,수송 > 지하철,전철 > 수도권4호선").phone("02-6110-4251").placeName("회현역 4호선")
+                .placeUrl("http://place.map.kakao.com/21160642").roadAddressName("서울 중구 퇴계로 지하 54")
+                .addressName("서울 중구 남창동 116-1")
+                .x("126.97843725718793")
+                .y("37.558760244882336").build();
+
+        List<KaKaoMapInfo> list = new ArrayList<>();
+        list.add(kaKaoMapInfo);
+
+        KakaoMapSearch search = KakaoMapSearch.builder()
+                .id(1l)
+                .mapid(2l)
+                .userid(1l)
+                .createdDate(new Date())
+                .build();
+
+        List<KakaoMapSearch> list2 = new ArrayList<>();
+        list2.add(search);
+
+        KaKaoMapOffer kaKaoMapOffer = KaKaoMapOffer.builder()
+                .documents(list)
+                .searchList(list2)
+                .id(1l)
+                .build();
+
+
+        kakaoMapOfferRepository.save(kaKaoMapOffer);
+
+        // when
+        List<KaKaoMapOffer> offerList = queryFactory.selectFrom(QKaKaoMapOffer.kaKaoMapOffer).fetch();
+        KakaoMapSearch searchOne = queryFactory.selectFrom(QKakaoMapSearch.kakaoMapSearch)
+                .where(QKakaoMapSearch.kakaoMapSearch.mapid.eq(2l))
+                .fetchOne();
+
+        // then
+        Assert.assertEquals(offerList.size(),1);
+        log.info("[@@@ 검색 이력...."+searchOne.toString());
+        log.info("[@@@ 맵 리스트.....]"+offerList.toString());
 
     }
 }
