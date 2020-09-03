@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wisenut.domain.model.IMapInfo;
 import com.wisenut.domain.model.IMapOffer;
-import lombok.Getter;
+import lombok.*;
 import lombok.extern.java.Log;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -30,6 +30,10 @@ import java.util.stream.Collectors;
 @Log
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Getter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Entity
 @Table(name = "Map")
 public class KaKaoMapOffer implements IMapOffer {
@@ -57,13 +61,11 @@ public class KaKaoMapOffer implements IMapOffer {
     @JoinColumn(name = "mapid")
     private List<KakaoMapSearch> searchList;
 
-    public KaKaoMapOffer(){
-        super();
-    }
 
-    public KaKaoMapOffer (List<KaKaoMapInfo> documents){
-        this.documents = documents;
-    }
+
+//    public KaKaoMapOffer (List<KaKaoMapInfo> documents){
+//        this.documents = documents;
+//    }
 
     /*
     웹 상에서 해당 정보를 크롤링하여 DB에 적재
