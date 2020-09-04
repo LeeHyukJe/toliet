@@ -1,5 +1,6 @@
 package com.wisenut.domain.model.kakaomap;
 
+import com.wisenut.domain.model.IMapSearch;
 import lombok.*;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +15,7 @@ import java.util.Date;
 @Builder
 @Entity
 @Table(name = "kakaomapsearch")
-public class KakaoMapSearch {
+public class KakaoMapSearch implements IMapSearch {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,4 +29,12 @@ public class KakaoMapSearch {
     private Long userid;
     // map foreign key
     private Long mapid;
+
+    @Override
+    public void newSearch(Long id, Date createdDate, Long userId, Long mapId) {
+        this.id = id;
+        this.createdDate = createdDate;
+        this.userid = userId;
+        this.mapid = mapId;
+    }
 }

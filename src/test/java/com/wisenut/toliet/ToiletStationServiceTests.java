@@ -2,9 +2,11 @@ package com.wisenut.toliet;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.wisenut.domain.application.ToiletStationService;
-import com.wisenut.domain.model.IMapInfo;
 import com.wisenut.domain.model.IMapOffer;
 import com.wisenut.domain.model.kakaomap.*;
+import com.wisenut.infrastructures.repository.kakao.KaKaoMapInfoRepository;
+import com.wisenut.infrastructures.repository.kakao.KaKaoMapUserRespository;
+import com.wisenut.infrastructures.repository.kakao.KakaoMapOfferRepository;
 import lombok.extern.log4j.Log4j2;
 import org.junit.Assert;
 import org.junit.Before;
@@ -12,8 +14,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
@@ -22,9 +22,7 @@ import java.util.Date;
 import java.util.List;
 
 import static com.wisenut.domain.model.kakaomap.QKaKaoMapInfo.kaKaoMapInfo;
-import static com.wisenut.domain.model.kakaomap.QKaKaoMapOffer.kaKaoMapOffer;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.isNotNull;
 
 @Log4j2
 @RunWith(SpringRunner.class)
@@ -153,5 +151,13 @@ public class ToiletStationServiceTests {
         log.info("[@@@ 검색 이력...."+searchOne.toString());
         log.info("[@@@ 맵 리스트.....]"+offerList.toString());
 
+    }
+
+    @Test
+    @Transactional
+    public void 맵_제공자_한개_가져오기_성공(){
+        IMapOffer kakaoMapOffer = kakaoMapOfferRepository.findMapById(1l);
+        Assert.assertEquals(kakaoMapOffer,isNotNull());
+//        log.info("[@@@ kakaoMapOffer...]"+kakaoMapOffer.toString());
     }
 }

@@ -13,6 +13,8 @@ import javax.validation.constraints.Size;
 @Setter
 @ToString
 public class SearchPayload {
+    // 누가 검색하는지 파악
+    // private String userId;
 
     @Size(min = 3, max = 10, message = "역 이름은 빈 값일 수 없습니다.")
     @NotNull

@@ -1,10 +1,8 @@
 package com.wisenut.toliet.web;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wisenut.domain.application.ToiletStationService;
 import com.wisenut.domain.model.kakaomap.KaKaoMapInfo;
-import com.wisenut.domain.model.kakaomap.KaKaoMapInfoRepository;
 import com.wisenut.web.payload.SearchPayload;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -14,11 +12,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MockMvcBuilder;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;

@@ -2,10 +2,8 @@ package com.wisenut.domain.model.kakaomap;
 
 import com.wisenut.domain.model.IMapOffer;
 import com.wisenut.domain.model.IUser;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
@@ -13,9 +11,10 @@ import java.util.Date;
 import java.util.List;
 
 @Component
-@AllArgsConstructor
-@NoArgsConstructor
+@Getter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "User")
 public class KakaoMapUser implements IUser {
@@ -47,9 +46,9 @@ public class KakaoMapUser implements IUser {
     @Transient
     private IMapOffer iMapOffer;
 
-//    public KakaoMapUser(IMapOffer iMapOffer){
-//        this.iMapOffer = iMapOffer;
-//    }
+    public KakaoMapUser(IMapOffer iMapOffer){
+        this.iMapOffer = iMapOffer;
+    }
     @Override
     public IMapOffer search(String stationName) {
         iMapOffer.searchStation(stationName);

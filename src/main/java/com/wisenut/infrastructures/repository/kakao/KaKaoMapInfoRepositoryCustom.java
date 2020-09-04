@@ -1,4 +1,4 @@
-package com.wisenut.domain.model.kakaomap;
+package com.wisenut.infrastructures.repository.kakao;
 
 import com.wisenut.domain.model.IMapInfo;
 

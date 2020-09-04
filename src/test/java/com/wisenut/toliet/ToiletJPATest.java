@@ -1,7 +1,7 @@
 package com.wisenut.toliet;
 
 import com.wisenut.domain.model.kakaomap.KaKaoMapInfo;
-import com.wisenut.domain.model.kakaomap.KaKaoMapInfoRepository;
+import com.wisenut.infrastructures.repository.kakao.KaKaoMapInfoRepository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
