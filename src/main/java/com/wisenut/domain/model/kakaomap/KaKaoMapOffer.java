@@ -47,7 +47,7 @@ public class KaKaoMapOffer implements IMapOffer {
     private String kakaoMapValue;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "type")
@@ -66,6 +66,15 @@ public class KaKaoMapOffer implements IMapOffer {
 //    public KaKaoMapOffer (List<KaKaoMapInfo> documents){
 //        this.documents = documents;
 //    }
+
+    /**
+     * update를 위한 수정자 메소드
+     * @return
+     */
+    public void update(List<KaKaoMapInfo> documents, List<KakaoMapSearch> searchList){
+        this.documents = documents;
+        this.searchList = searchList;
+    }
 
     /*
     웹 상에서 해당 정보를 크롤링하여 DB에 적재
