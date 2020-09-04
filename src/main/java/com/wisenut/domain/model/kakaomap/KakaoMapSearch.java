@@ -18,7 +18,7 @@ import java.util.Date;
 public class KakaoMapSearch implements IMapSearch {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Temporal(TemporalType.TIMESTAMP)
