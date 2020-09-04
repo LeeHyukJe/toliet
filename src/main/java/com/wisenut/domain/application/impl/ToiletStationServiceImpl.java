@@ -56,9 +56,13 @@ public class ToiletStationServiceImpl implements ToiletStationService {
             list.add((KaKaoMapInfo) search(command).get(0));
         }
         log.info("@@@[저장될 역 리스트들.....]"+list.toString());
-        // 데이터 중복 테스트
-        list = list.stream().filter(ele->!kaKaoMapInfoRepository.existsById(ele.getId())).collect(Collectors.toList());
         kaKaoMapInfoRepository.saveAll(list);
+
+        KaKaoMapOffer kaKaoMapOffer = KaKaoMapOffer
+                .builder()
+                .type("kakao")
+                .build();
+        kakaoMapOfferRepository.save(kaKaoMapOffer);
 
     }
 
@@ -72,7 +76,7 @@ public class ToiletStationServiceImpl implements ToiletStationService {
     @Override
     public String searchNearestStationName(SearchCommand command){
         // DB에서 해당 역 정보들 모두 가져오기
-        createToiletStation();
+//        createToiletStation();
         List<KaKaoMapInfo> kaKaoMapInfos = kaKaoMapInfoRepository.findAll();
 
 
@@ -88,14 +92,13 @@ public class ToiletStationServiceImpl implements ToiletStationService {
                 .userid(kakaoMapUser.getId())
                 .build();
 
-        List<KakaoMapSearch> searchList = new ArrayList<>();
+        KaKaoMapOffer kaKaoMapOffer = kakaoMapOfferRepository.findByType("kakao");
+        List<KakaoMapSearch> searchList = kaKaoMapOffer.getSearchList();
         searchList.add(newKakaoSearch);
+        kaKaoMapOffer.update(kaKaoMapInfos, searchList);
 
-        IMapOffer kakaoMapOffer = KaKaoMapOffer.builder()
-                .documents(kaKaoMapInfos)
-                .searchList(searchList)
-                .type("kakao")
-                .build();
+
+        kakaoMapOfferRepository.save(kaKaoMapOffer);
 
 
         return result;
