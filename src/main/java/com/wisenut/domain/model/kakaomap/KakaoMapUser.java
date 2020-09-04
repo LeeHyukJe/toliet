@@ -12,15 +12,13 @@ import java.util.List;
 
 @Component
 @Getter
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "User")
 public class KakaoMapUser implements IUser {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name="username", nullable = false, length = 50, unique = true)
@@ -42,10 +40,21 @@ public class KakaoMapUser implements IUser {
     @JoinColumn(name = "userid")
     private List<KakaoMapSearch> searchList;
 
-
     @Transient
     private IMapOffer iMapOffer;
 
+    @Builder
+    public KakaoMapUser(Long id, String username, String emailAddress, String password, String firstName, String lastName, Date createdDate) {
+        this.id = id;
+        this.username = username;
+        this.emailAddress = emailAddress;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.createdDate = createdDate;
+    }
+
+    @Autowired
     public KakaoMapUser(IMapOffer iMapOffer){
         this.iMapOffer = iMapOffer;
     }
