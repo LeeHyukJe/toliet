@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+## pom.xml 제거
+pom.xml
