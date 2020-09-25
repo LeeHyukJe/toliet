@@ -77,7 +77,7 @@ public class ToiletStationServiceImpl implements ToiletStationService {
     @Override
     public String searchNearestStationName(SearchCommand command){
         // DB에서 해당 역 정보들 모두 가져오기
-        createToiletStation();
+        //createToiletStation();
         List<KaKaoMapInfo> kaKaoMapInfos = kaKaoMapInfoRepository.findAll();
 
 
