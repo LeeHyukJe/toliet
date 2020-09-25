@@ -21,10 +21,10 @@ public class searchPayloadTests {
         validator = factory.getValidator();
     }
 
-    @Test
-    public void validate_blankPayload_should_fail(){
-        SearchPayload searchPayload = new SearchPayload();
-        Set<ConstraintViolation<SearchPayload>> violations = validator.validate(searchPayload);
-        Assert.assertEquals(3, violations.size());
-    }
+//    @Test
+//    public void validate_blankPayload_should_fail(){
+//        SearchPayload searchPayload = new SearchPayload();
+//        Set<ConstraintViolation<SearchPayload>> violations = validator.validate(searchPayload);
+//        Assert.assertEquals(3, violations.size());
+//    }
 }

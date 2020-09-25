@@ -48,18 +48,6 @@ class ToiletSearchAPIControllerTests {
         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print());
-
-        result.andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andDo(print());
-    }
-
-    @Test
-    public void integrated_test_should_success() throws Exception {
-        mockMVc.perform(MockMvcRequestBuilders.get("/api/calculation/distance")
-                .param("stationName","회현역"))
-                .andExpect(status().isOk())
-                .andDo(print());
     }
 
 }
