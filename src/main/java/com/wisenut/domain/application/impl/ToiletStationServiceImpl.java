@@ -73,10 +73,11 @@ public class ToiletStationServiceImpl implements ToiletStationService {
         return iMapInfos;
     }
 
+    @Transactional
     @Override
     public String searchNearestStationName(SearchCommand command){
         // DB에서 해당 역 정보들 모두 가져오기
-//        createToiletStation();
+        createToiletStation();
         List<KaKaoMapInfo> kaKaoMapInfos = kaKaoMapInfoRepository.findAll();
 
 
@@ -93,6 +94,7 @@ public class ToiletStationServiceImpl implements ToiletStationService {
                 .build();
 
         KaKaoMapOffer kaKaoMapOffer = kakaoMapOfferRepository.findByType("kakao");
+        // null 처리 해야 함
         List<KakaoMapSearch> searchList = kaKaoMapOffer.getSearchList();
         searchList.add(newKakaoSearch);
         kaKaoMapOffer.update(kaKaoMapInfos, searchList);
