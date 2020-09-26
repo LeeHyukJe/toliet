@@ -36,4 +36,4 @@ build/
 pom.xml
 
 ## application.properties 제거
-*.properties
+application.properties
