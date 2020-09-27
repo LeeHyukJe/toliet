@@ -20,7 +20,7 @@ public class ToiletSearchAPIController {
         this.toiletStationService = toiletStationService;
     }
 
-    @GetMapping("/api/search")
+    @GetMapping("/mapapi/search")
     public ResponseEntity<List<? extends IMapInfo>> searchToiletStation(@ModelAttribute SearchPayload payload){
         try{
             List<? extends IMapInfo> iMapInfos = toiletStationService.search(payload.toCommand());
@@ -32,7 +32,7 @@ public class ToiletSearchAPIController {
         }
     }
 
-    @PostMapping("/api/calculation/distance")
+    @PostMapping("/mapapi/calculation/distance")
     public ResponseEntity<String> calculateDistance(@RequestBody SearchPayload payload){
         try{
 
