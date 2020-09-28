@@ -43,7 +43,7 @@ class ToiletSearchAPIControllerTests {
 
         given(toiletStationService.searchNearestStationName(payload.toCommand())).willReturn("회현역");
 
-        final ResultActions result = mockMVc.perform(post("/api/calculation/distance")
+        final ResultActions result = mockMVc.perform(post("/mapapi/calculation/distance")
         .content(content)
         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
