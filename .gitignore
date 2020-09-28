@@ -36,4 +36,4 @@ build/
 pom.xml
 
 ## application.properties ignore
-*.properties
+application.properties
