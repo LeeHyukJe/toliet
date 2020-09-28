@@ -34,3 +34,6 @@ build/
 
 ## pom.xml 제거
 pom.xml
+
+## application.properties 제거
+application.properties
