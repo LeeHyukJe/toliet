@@ -4,15 +4,14 @@ import com.wisenut.domain.application.ToiletStationService;
 import com.wisenut.domain.application.commands.SearchCommand;
 import com.wisenut.domain.model.IMapInfo;
 import com.wisenut.domain.model.IMapOffer;
-import com.wisenut.domain.model.IMapSearch;
 import com.wisenut.domain.model.IUser;
 import com.wisenut.domain.model.kakaomap.KaKaoMapInfo;
 import com.wisenut.domain.model.kakaomap.KaKaoMapOffer;
 import com.wisenut.domain.model.kakaomap.KakaoMapSearch;
 import com.wisenut.domain.model.kakaomap.KakaoMapUser;
-import com.wisenut.infrastructures.repository.kakao.KaKaoMapInfoRepository;
-import com.wisenut.infrastructures.repository.kakao.KaKaoMapUserRespository;
-import com.wisenut.infrastructures.repository.kakao.KakaoMapOfferRepository;
+import com.wisenut.domain.model.kakaomap.KaKaoMapInfoRepository;
+import com.wisenut.domain.model.kakaomap.KaKaoMapUserRespository;
+import com.wisenut.domain.model.kakaomap.KakaoMapOfferRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +19,6 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Log4j2
 @Service

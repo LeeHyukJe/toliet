@@ -65,7 +65,7 @@ public class RegistrationManagementTests {
         // Return null to indicate no user exists
         when(repositoryMock.findByUsername(username)).thenReturn(null);
         when(repositoryMock.findByEmailAddress(emailAddress)).thenReturn(null);
-        doNothing().when(repositoryMock).save(newUser);
+        when(repositoryMock.save(newUser)).thenReturn(newUser);
         // Setup passwordEncryptor mock
         when(passwordEncryptorMock.encrypt(password)).thenReturn("EncryptedPassword");
 
