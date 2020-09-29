@@ -1,8 +1,9 @@
-package com.wisenut.toliet.web;
+package com.wisenut.toliet.web.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wisenut.domain.application.ToiletStationService;
 import com.wisenut.domain.model.kakaomap.KaKaoMapInfo;
+import com.wisenut.web.apis.ToiletSearchAPIController;
 import com.wisenut.web.payload.SearchPayload;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -22,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest
+@WebMvcTest(ToiletSearchAPIController.class)
 class ToiletSearchAPIControllerTests {
 
     @MockBean
