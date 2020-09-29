@@ -14,6 +14,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
@@ -27,6 +28,7 @@ import static org.mockito.ArgumentMatchers.isNotNull;
 @Log4j2
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@ActiveProfiles("test")
 public class ToiletStationServiceTests {
 
     @Autowired
@@ -123,7 +125,7 @@ public class ToiletStationServiceTests {
 
         KakaoMapSearch search = KakaoMapSearch.builder()
                 .id(1l)
-                .mapid(2l)
+                .mapid(1l)
                 .userid(1l)
                 .createdDate(new Date())
                 .build();
@@ -148,8 +150,8 @@ public class ToiletStationServiceTests {
 
         // then
         Assert.assertEquals(offerList.size(),1);
-        log.info("[@@@ 검색 이력...."+searchOne.toString());
-        log.info("[@@@ 맵 리스트.....]"+offerList.toString());
+//        log.info("[@@@ 검색 이력...."+searchOne.toString());
+//        log.info("[@@@ 맵 리스트.....]"+offerList.toString());
 
     }
 
