@@ -78,7 +78,7 @@ export default {
       registerService.register(this.form).then(() => {
         this.$router.push({ name: 'LoginPage' })
       }).catch((error) => {
-        this.errorMessage = 'Failed to register user. Reason: ' + (error.message ? error.message : 'Unknown') + '.'
+        this.errorMessage = '사용자 등록 실패 원인 : ' + (error.message ? error.message : 'Unknown') + '.'
       })
     }
   },
