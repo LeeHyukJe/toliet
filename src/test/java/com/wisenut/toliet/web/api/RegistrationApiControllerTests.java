@@ -1,5 +1,6 @@
 package com.wisenut.toliet.web.api;
 
+import com.wisenut.config.security.SecurityConfiguration;
 import com.wisenut.domain.application.UserService;
 import com.wisenut.domain.model.user.EmailAddressExistsException;
 import com.wisenut.domain.model.user.UsernameExistsException;
@@ -13,6 +14,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -23,7 +26,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest (RegistrationApiController.class)
+@ContextConfiguration(classes = {SecurityConfiguration.class, RegistrationApiController.class})
+@WebMvcTest
 public class RegistrationApiControllerTests {
 
     @Autowired
