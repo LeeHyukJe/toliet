@@ -37,7 +37,6 @@ import authenticationService from '@/services/authentication'
 import Logo from '@/components/Logo.vue'
 import PageFooter from '@/components/PageFooter.vue'
 
-
 export default {
   name: 'LoginPage',
   data: function () {
@@ -70,9 +69,9 @@ export default {
         return
       }
       authenticationService.authenticate(this.form).then(() => {
-        this.$router.push({ name: 'Homepage'})
-      }).catch((onerror) => {
-        this.errorMessage = onerror.errorMessage
+        this.$router.push({ name: 'home' })
+      }).catch((error) => {
+        this.errorMessage = error.response.data.message
       })
     }
   }

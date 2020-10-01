@@ -6,6 +6,7 @@ import com.wisenut.domain.model.kakaomap.KaKaoMapInfo;
 import com.wisenut.web.payload.SearchPayload;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,7 +21,8 @@ public class ToiletSearchAPIController {
         this.toiletStationService = toiletStationService;
     }
 
-    @GetMapping("/mapapi/search")
+
+    @GetMapping("/api/search")
     public ResponseEntity<List<? extends IMapInfo>> searchToiletStation(@ModelAttribute SearchPayload payload){
         try{
             List<? extends IMapInfo> iMapInfos = toiletStationService.search(payload.toCommand());
@@ -32,7 +34,7 @@ public class ToiletSearchAPIController {
         }
     }
 
-    @PostMapping("/mapapi/calculation/distance")
+    @PostMapping("/api/calculation/distance")
     public ResponseEntity<String> calculateDistance(@RequestBody SearchPayload payload){
         try{
 

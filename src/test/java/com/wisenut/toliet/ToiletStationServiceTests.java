@@ -5,8 +5,9 @@ import com.wisenut.domain.application.ToiletStationService;
 import com.wisenut.domain.model.IMapOffer;
 import com.wisenut.domain.model.kakaomap.*;
 import com.wisenut.domain.model.kakaomap.KaKaoMapInfoRepository;
-import com.wisenut.domain.model.kakaomap.KaKaoMapUserRespository;
 import com.wisenut.domain.model.kakaomap.KakaoMapOfferRepository;
+import com.wisenut.domain.model.user.User;
+import com.wisenut.domain.model.user.UserRepository;
 import lombok.extern.log4j.Log4j2;
 import org.junit.Assert;
 import org.junit.Before;
@@ -38,13 +39,13 @@ public class ToiletStationServiceTests {
     @Autowired
     private KakaoMapOfferRepository kakaoMapOfferRepository;
     @Autowired
-    private KaKaoMapUserRespository kaKaoMapUserRespository;
+    private UserRepository userRepository;
     @Autowired
     private JPAQueryFactory queryFactory;
 
     @Before
     public void init(){
-        KakaoMapUser user = KakaoMapUser.builder()
+        User user = User.builder()
                 .id(1l)
                 .createdDate(new Date())
                 .emailAddress("lims2733@naver.com")
@@ -69,7 +70,7 @@ public class ToiletStationServiceTests {
 //                .build();
 
 
-        kaKaoMapUserRespository.save(user);
+        userRepository.save(user);
         kaKaoMapInfoRepository.save(kaKaoMapInfo);
 //        kakaoMapOfferRepository.save(kaKaoMapOffer);
     }

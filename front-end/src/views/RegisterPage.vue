@@ -44,17 +44,13 @@
 </template>
 
 <script>
-import registerService from '@/services/registration'
+import registerService from '@/services/registration.js'
 import { required, email, minLength, maxLength, alphaNum } from 'vuelidate/lib/validators'
 import Logo from '@/components/Logo.vue'
 import PageFooter from '@/components/PageFooter.vue'
 
 export default {
   name: 'RegisterPage',
-  components: {
-    PageFooter,
-    Logo
-  },
   data: function () {
     return {
       form: {
@@ -65,18 +61,9 @@ export default {
       errorMessage: ''
     }
   },
-  methods: {
-    submitForm () {
-      this.$v.$touch()
-      if (this.$v.$invalid) {
-        return
-      }
-      registerService.register(this.form).then(() => {
-        this.$router.push({ name: 'LoginPage' })
-      }).catch((error) => {
-        this.errorMessage = '사용자 등록 실패 원인 : ' + (error.message ? error.message : 'Unknown') + '.'
-      })
-    }
+  components: {
+    Logo,
+    PageFooter
   },
   validations: {
     form: {
@@ -96,6 +83,19 @@ export default {
         minLength: minLength(6),
         maxLength: maxLength(30)
       }
+    }
+  },
+  methods: {
+    submitForm () {
+      this.$v.$touch()
+      if (this.$v.$invalid) {
+        return
+      }
+      registerService.register(this.form).then(() => {
+        this.$router.push({ name: 'login' })
+      }).catch((error) => {
+        this.errorMessage = 'Failed to register user. ' + error.response.data.message
+      })
     }
   }
 }

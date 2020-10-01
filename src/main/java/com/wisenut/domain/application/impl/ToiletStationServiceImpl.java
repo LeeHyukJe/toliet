@@ -8,10 +8,10 @@ import com.wisenut.domain.model.IUser;
 import com.wisenut.domain.model.kakaomap.KaKaoMapInfo;
 import com.wisenut.domain.model.kakaomap.KaKaoMapOffer;
 import com.wisenut.domain.model.kakaomap.KakaoMapSearch;
-import com.wisenut.domain.model.kakaomap.KakaoMapUser;
 import com.wisenut.domain.model.kakaomap.KaKaoMapInfoRepository;
-import com.wisenut.domain.model.kakaomap.KaKaoMapUserRespository;
 import com.wisenut.domain.model.kakaomap.KakaoMapOfferRepository;
+import com.wisenut.domain.model.user.User;
+import com.wisenut.domain.model.user.UserRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
@@ -25,21 +25,21 @@ import java.util.List;
 @Transactional
 public class ToiletStationServiceImpl implements ToiletStationService {
 
-    private IUser iUser;
+    private User user;
     private IMapOffer iMapOffer;
     private KaKaoMapInfoRepository kaKaoMapInfoRepository;
     private KakaoMapOfferRepository kakaoMapOfferRepository;
-    private KaKaoMapUserRespository kaKaoMapUserRespository;
+    private UserRepository userRepository;
 
-    public ToiletStationServiceImpl(IUser iUser, IMapOffer iMapOffer,
+    public ToiletStationServiceImpl(User user, IMapOffer iMapOffer,
                                     KaKaoMapInfoRepository kaKaoMapInfoRepository
-                                    ,KakaoMapOfferRepository kakaoMapOfferRepository
-                                    ,KaKaoMapUserRespository kaKaoMapUserRespository){
-        this.iUser = iUser;
+                                    , KakaoMapOfferRepository kakaoMapOfferRepository
+                                    , UserRepository userRepository){
+        this.user = user;
         this.iMapOffer = iMapOffer;
         this.kaKaoMapInfoRepository = kaKaoMapInfoRepository;
         this.kakaoMapOfferRepository = kakaoMapOfferRepository;
-        this.kaKaoMapUserRespository = kaKaoMapUserRespository;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -66,7 +66,7 @@ public class ToiletStationServiceImpl implements ToiletStationService {
 
     @Override
     public List<? extends IMapInfo> search(SearchCommand command) {
-        IMapOffer iMapOffer = iUser.search(command.getStationName());
+        IMapOffer iMapOffer = user.search(command.getStationName());
         List<? extends IMapInfo> iMapInfos = iMapOffer.searchStation(command.getStationName());
         return iMapInfos;
     }
@@ -84,11 +84,11 @@ public class ToiletStationServiceImpl implements ToiletStationService {
 
 
         // User 가져오기 (원래대로라면 command객체에서 가져와야 함)
-        KakaoMapUser kakaoMapUser = kaKaoMapUserRespository.findById(1l).get();
+        User user = userRepository.findById(1l).get();
 
         KakaoMapSearch newKakaoSearch = KakaoMapSearch.builder()
                 .createdDate(new Date())
-                .userid(kakaoMapUser.getId())
+                .userid(user.getId())
                 .build();
 
         KaKaoMapOffer kaKaoMapOffer = kakaoMapOfferRepository.findByType("kakao");

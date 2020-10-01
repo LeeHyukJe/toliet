@@ -1,10 +1,8 @@
 import axios from 'axios'
-
-
 export default {
-  authenticate (detail) {
+  register (detail) {
     return new Promise((resolve, reject) => {
-      axios.post('/authentications', detail).then(({data}) => {
+      axios.post('/registrations', detail).then(({ data }) => {
         resolve(data)
       }).catch((error) => {
         reject(error)

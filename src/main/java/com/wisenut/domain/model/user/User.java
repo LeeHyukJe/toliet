@@ -1,12 +1,23 @@
 package com.wisenut.domain.model.user;
 
 import com.wisenut.domain.common.model.AbstractBaseEntity;
+import com.wisenut.domain.model.IMapOffer;
+import com.wisenut.domain.model.kakaomap.KakaoMapSearch;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
+@Component
 @Entity
+@EqualsAndHashCode(of = {"username","emailAddress"})
+@ToString
 @Table(name = "user")
 public class User extends AbstractBaseEntity {
 
@@ -22,7 +33,7 @@ public class User extends AbstractBaseEntity {
     @Column(name = "email_address", nullable = false, length = 100, unique = true)
     private String emailAddress;
 
-    @Column(name = "password", nullable = false, length = 30)
+    @Column(name = "password", nullable = false, length = 100)
     private String password;
 
     @Column(name = "first_name", nullable = false, length = 45)
@@ -34,6 +45,7 @@ public class User extends AbstractBaseEntity {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_date", nullable = false)
     private Date createdDate;
+
 
     public User() {
     }
@@ -80,30 +92,37 @@ public class User extends AbstractBaseEntity {
         return createdDate;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof User)) return false;
-        User user = (User) o;
-        return Objects.equals(username, user.username) &&
-                Objects.equals(emailAddress, user.emailAddress);
+
+
+    public void updateName(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(username, emailAddress);
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "userid")
+    private List<KakaoMapSearch> searchList;
+
+    @Transient
+    private IMapOffer iMapOffer;
+
+    @Builder
+    public User(Long id, String username, String emailAddress, String password, String firstName, String lastName, Date createdDate) {
+        this.id = id;
+        this.username = username;
+        this.emailAddress = emailAddress;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.createdDate = createdDate;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", emailAddress='" + emailAddress + '\'' +
-                ", password=<Protected> " +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", createdDate=" + createdDate +
-                '}';
+    public User(IMapOffer iMapOffer){
+        this.iMapOffer = iMapOffer;
+    }
+    public IMapOffer search(String stationName) {
+        iMapOffer.searchStation(stationName);
+        return iMapOffer;
     }
 }
