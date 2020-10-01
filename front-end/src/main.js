@@ -4,6 +4,9 @@ import router from './router'
 import store from './store'
 import axios from 'axios'
 import Vuelidate from 'vuelidate'
+import { library as faLibrary } from '@fortawesome/fontawesome-svg-core'
+import { faHome, faSearch, faPlus } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 Vue.use(Vuelidate)
 Vue.config.productionTip = false
@@ -16,6 +19,11 @@ axios.interceptors.response.use(
     return Promise.reject(error)
   }
 )
+
+faLibrary.add(faHome)
+faLibrary.add(faSearch)
+faLibrary.add(faPlus)
+Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 new Vue({
   router,
