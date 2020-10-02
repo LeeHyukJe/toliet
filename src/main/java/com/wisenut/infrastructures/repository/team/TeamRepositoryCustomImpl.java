@@ -16,6 +16,7 @@ public class TeamRepositoryCustomImpl implements TeamRepositoryCustom {
     @Override
     public List<Team> findTeamsByUserId(Long userId) {
         List<Team> team = queryFactory.select(QTeam.team)
+                .from(QTeam.team)
                 .where(QTeam.team.user.id.eq(userId))
                 .fetch();
         List<Team> team2 = queryFactory.select(QTeam.team)

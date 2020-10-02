@@ -4,6 +4,7 @@ import LoginPage from '@/views/LoginPage'
 import RegisterPage from '@/views/RegisterPage'
 import HomePage from '@/views/HomePage'
 import KakaoMap from '@/views/KakaoMap'
+import BoardPage from '@/views/BoardPage'
 
 Vue.use(Router)
 
@@ -26,5 +27,9 @@ export default new Router({
     path: '/kakaomap',
     name: 'kakaomap',
     component: KakaoMap
+  }, {
+    path: '/board/:boardId',
+    name: 'board',
+    component: BoardPage
   }]
 })
