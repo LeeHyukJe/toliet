@@ -61,7 +61,7 @@ public class MyDataResult {
             this.id = board.getId();
             this.name = board.getName();
             this.description = board.getDescription();
-            //this.teamId = board.getTeamId();
+            this.teamId = board.getTeam() == null ? 0 : board.getTeam().getId();
         }
 
         public long getId() {

@@ -71,6 +71,7 @@ export default {
       authenticationService.authenticate(this.form).then(() => {
         this.$router.push({ name: 'home' })
       }).catch((error) => {
+        // TODO: 에러메시지 수정 -> reponse가 null 일 경우 분기 처리 하기
         this.errorMessage = error.response.data.message
       })
     }

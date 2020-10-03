@@ -12,7 +12,7 @@ import java.util.Date;
 
 @Getter
 @EqualsAndHashCode(of = {"userId", "name"})
-@ToString
+@ToString(exclude = "user")
 @Entity
 @Table(name = "team")
 public class Team extends AbstractBaseEntity {

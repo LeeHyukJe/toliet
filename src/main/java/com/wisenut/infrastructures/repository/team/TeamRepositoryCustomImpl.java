@@ -1,5 +1,6 @@
 package com.wisenut.infrastructures.repository.team;
 
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.wisenut.domain.model.board.QBoard;
 import com.wisenut.domain.model.board.QBoardMember;
@@ -7,7 +8,11 @@ import com.wisenut.domain.model.team.QTeam;
 import com.wisenut.domain.model.team.Team;
 import lombok.RequiredArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public class TeamRepositoryCustomImpl implements TeamRepositoryCustom {
@@ -24,7 +29,16 @@ public class TeamRepositoryCustomImpl implements TeamRepositoryCustom {
                 .innerJoin(QBoard.board).on(QTeam.team.id.eq(QBoard.board.team.id))
                 .innerJoin(QBoardMember.boardMember).on(QBoard.board.id.eq(QBoardMember.boardMember.id.board.id))
                 .fetch();
-        team.addAll(team2);
-        return team;
+
+//        team.addAll(team2);
+        Set<Team> union = team
+                .stream()
+                .distinct()
+                .filter(ele -> team2.contains(ele))
+                .collect(Collectors.toSet());
+
+        List result = new ArrayList<>(union);
+
+        return result;
     }
 }

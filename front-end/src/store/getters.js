@@ -17,4 +17,5 @@ export const teamBoards = state => {
       boards: state.boards.filter(board => board.teamId === team.id)
     })
   })
+  return teams
 }

@@ -9,8 +9,8 @@ public class CreateBoardResult {
         ApiResult apiResult = ApiResult.blank()
                 .add("id", board.getId())
                 .add("name", board.getName())
-                .add("description", board.getDescription());
-                //.add("teamId", board.getTeamId());
+                .add("description", board.getDescription())
+                .add("teamId", board.getTeam() == null ? 0 : board.getTeam().getId());
         return Result.ok(apiResult);
     }
 }

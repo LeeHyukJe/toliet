@@ -75,7 +75,7 @@ export default {
       $('#createBoardModal').modal('show')
     },
     createTeam () {
-      $('createTeamModal').modal('show')
+      $('#createTeamModal').modal('show')
     },
     onBoardCreated (boardId) {
       this.$router.push({ name: 'board', params: { boardId: boardId } })

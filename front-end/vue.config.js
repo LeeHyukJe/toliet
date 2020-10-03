@@ -13,7 +13,6 @@ module.exports = {
       style: [
         'bootstrap/dist/css/bootstrap.min.css'
       ]
-    },
-    devtool: 'source-map'
+    }
   }
 }

@@ -17,7 +17,6 @@ import java.util.Objects;
 @Component
 @Entity
 @EqualsAndHashCode(of = {"username","emailAddress"})
-@ToString
 @Table(name = "user")
 public class User extends AbstractBaseEntity {
 
@@ -99,7 +98,6 @@ public class User extends AbstractBaseEntity {
         this.lastName = lastName;
     }
 
-
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "userid")
     private List<KakaoMapSearch> searchList;
@@ -124,5 +122,10 @@ public class User extends AbstractBaseEntity {
     public IMapOffer search(String stationName) {
         iMapOffer.searchStation(stationName);
         return iMapOffer;
+    }
+
+    @Override
+    public String toString() {
+        return null;
     }
 }
