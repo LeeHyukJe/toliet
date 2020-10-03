@@ -85,9 +85,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .boards-container {
-    padding: 0 35px;
-  }
+.boards-container {
+  padding: 0 35px;
   h2 {
     font-size: 18px;
     margin-bottom: 15px;
@@ -95,7 +94,6 @@ export default {
   }
   .boards-section {
     margin: 30px 10px;
-
     .boards {
       .board {
         width: 270px;
@@ -116,22 +114,20 @@ export default {
           color: rgba(255, 255, 255, 0.70)
         }
       }
-    }
-    .add {
-      .btn-link {
+      .add {
+        background-color: #f4f4f4;
         color: #666;
         text-align: center;
         padding-top: 30px;
         font-weight: 400;
-        text-decoration: underline;
-      }
-    }
-
-    .create-team-wrapper {
-      .btn-link {
-        color: #666;
-        text-decoration: underline;
       }
     }
   }
+  .create-team-wrapper {
+    .btn-link {
+      color: #666;
+      text-decoration: underline;
+    }
+  }
+}
 </style>
