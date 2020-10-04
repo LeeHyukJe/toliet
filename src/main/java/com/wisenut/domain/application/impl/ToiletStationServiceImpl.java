@@ -50,7 +50,7 @@ public class ToiletStationServiceImpl implements ToiletStationService {
         List<String> stationNames = iMapOffer.collectMapInfo();
         List<KaKaoMapInfo> list = new ArrayList<>();
         for(String name: stationNames){
-            SearchCommand command = new SearchCommand(name,"","","","");
+            SearchCommand command = SearchCommand.builder().stationName(name).build();
             list.add((KaKaoMapInfo) search(command).get(0));
         }
         log.info("@@@[저장될 역 리스트들.....]"+list.toString());
@@ -78,26 +78,22 @@ public class ToiletStationServiceImpl implements ToiletStationService {
         //createToiletStation();
         List<KaKaoMapInfo> kaKaoMapInfos = kaKaoMapInfoRepository.findAll();
 
-
         // DB와 현재 위치 좌표를 계산해서 가장 가까운 역 찾기 (두 점 사이의 거리 계산)
         String result = iMapOffer.calculateDistance(kaKaoMapInfos, command.getX(), command.getY());
 
-
-        // User 가져오기 (원래대로라면 command객체에서 가져와야 함)
-        User user = userRepository.findById(1l).get();
-
         KakaoMapSearch newKakaoSearch = KakaoMapSearch.builder()
                 .createdDate(new Date())
-                .userid(user.getId())
+                .userid(command.getUserId())
                 .build();
 
         KaKaoMapOffer kaKaoMapOffer = kakaoMapOfferRepository.findByType("kakao");
         // null 처리 해야 함
         List<KakaoMapSearch> searchList = kaKaoMapOffer.getSearchList();
-        searchList.add(newKakaoSearch);
+        if(searchList == null){
+            searchList = new ArrayList<>();
+            searchList.add(newKakaoSearch);
+        }
         kaKaoMapOffer.update(kaKaoMapInfos, searchList);
-
-
         kakaoMapOfferRepository.save(kaKaoMapOffer);
 
 

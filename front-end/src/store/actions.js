@@ -13,3 +13,7 @@ export const addTeam = ({ commit }, team) => {
 export const addBoard = ({ commit }, board) => {
   commit('addBoards', board)
 }
+
+export const addMapInfo = ({ commit }, mapInfo) => {
+  commit('addMapInfo', mapInfo)
+}

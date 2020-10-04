@@ -116,6 +116,7 @@ public class User extends AbstractBaseEntity {
         this.createdDate = createdDate;
     }
 
+    @Autowired
     public User(IMapOffer iMapOffer){
         this.iMapOffer = iMapOffer;
     }

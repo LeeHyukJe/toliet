@@ -14,7 +14,7 @@ import javax.validation.constraints.Size;
 @ToString
 public class SearchPayload {
     // 누가 검색하는지 파악
-    // private String userId;
+    private Long userId;
 
     @Size(min = 3, max = 10, message = "역 이름은 빈 값일 수 없습니다.")
     @NotNull
@@ -37,6 +37,7 @@ public class SearchPayload {
     private String y;
 
     public SearchCommand toCommand(){
-        return new SearchCommand(this.stationName,this.address_name,this.place_name,this.x, this.y);
+//        return new SearchCommand(this.stationName,this.address_name,this.place_name,this.x, this.y);
+        return SearchCommand.builder().stationName(stationName).addressName(address_name).placeName(place_name).x(x).y(y).userId(userId).build();
     }
 }

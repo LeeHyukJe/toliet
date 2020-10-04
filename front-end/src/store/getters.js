@@ -19,3 +19,5 @@ export const teamBoards = state => {
   })
   return teams
 }
+
+export const toiletPosition = state => state.name

@@ -12,7 +12,8 @@ const state = {
     name: null
   },
   teams: [/* {id, name} */],
-  boards: [/* {id, name, description, teamId} */]
+  boards: [/* {id, name, description, teamId} */],
+  toilets: []
 }
 
 export default new Vuex.Store({
