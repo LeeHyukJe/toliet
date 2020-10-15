@@ -19,6 +19,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Log4j2
 @Service
@@ -29,17 +30,14 @@ public class ToiletStationServiceImpl implements ToiletStationService {
     private IMapOffer iMapOffer;
     private KaKaoMapInfoRepository kaKaoMapInfoRepository;
     private KakaoMapOfferRepository kakaoMapOfferRepository;
-    private UserRepository userRepository;
-
-    public ToiletStationServiceImpl(User user, IMapOffer iMapOffer,
-                                    KaKaoMapInfoRepository kaKaoMapInfoRepository
-                                    , KakaoMapOfferRepository kakaoMapOfferRepository
-                                    , UserRepository userRepository){
+    public ToiletStationServiceImpl(User user
+                                    , IMapOffer iMapOffer
+                                    , KaKaoMapInfoRepository kaKaoMapInfoRepository
+                                    , KakaoMapOfferRepository kakaoMapOfferRepository){
         this.user = user;
         this.iMapOffer = iMapOffer;
         this.kaKaoMapInfoRepository = kaKaoMapInfoRepository;
         this.kakaoMapOfferRepository = kakaoMapOfferRepository;
-        this.userRepository = userRepository;
     }
 
     /**
@@ -88,7 +86,7 @@ public class ToiletStationServiceImpl implements ToiletStationService {
 
         KaKaoMapOffer kaKaoMapOffer = kakaoMapOfferRepository.findByType("kakao");
         // null 처리 해야 함
-        List<KakaoMapSearch> searchList = kaKaoMapOffer.getSearchList();
+         List<KakaoMapSearch> searchList = kaKaoMapOffer.getSearchList();
         if(searchList == null){
             searchList = new ArrayList<>();
             searchList.add(newKakaoSearch);
