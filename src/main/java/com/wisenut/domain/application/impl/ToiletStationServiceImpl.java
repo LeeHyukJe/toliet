@@ -78,24 +78,40 @@ public class ToiletStationServiceImpl implements ToiletStationService {
 
         // DB와 현재 위치 좌표를 계산해서 가장 가까운 역 찾기 (두 점 사이의 거리 계산)
         String result = iMapOffer.calculateDistance(kaKaoMapInfos, command.getX(), command.getY());
+        storeSearchHistory(command);
+//        KakaoMapSearch newKakaoSearch = KakaoMapSearch.builder()
+//                .createdDate(new Date())
+//                .userid(command.getUserId())
+//                .build();
+//
+//        KaKaoMapOffer kaKaoMapOffer = kakaoMapOfferRepository.findByType("kakao");
+//        // null 처리 해야 함
+//         List<KakaoMapSearch> searchList = kaKaoMapOffer.getSearchList();
+//        if(searchList == null){
+//            searchList = new ArrayList<>();
+//            searchList.add(newKakaoSearch);
+//        }
+//        kaKaoMapOffer.update(kaKaoMapInfos, searchList);
+//        kakaoMapOfferRepository.save(kaKaoMapOffer);
+        return result;
+    }
 
-        KakaoMapSearch newKakaoSearch = KakaoMapSearch.builder()
-                .createdDate(new Date())
-                .userid(command.getUserId())
-                .build();
+    public void storeSearchHistory(SearchCommand command){
+        List<KaKaoMapInfo> kaKaoMapInfos = kaKaoMapInfoRepository.findAll();
 
         KaKaoMapOffer kaKaoMapOffer = kakaoMapOfferRepository.findByType("kakao");
-        // null 처리 해야 함
-         List<KakaoMapSearch> searchList = kaKaoMapOffer.getSearchList();
+        List<KakaoMapSearch> searchList = kaKaoMapOffer.getSearchList();
         if(searchList == null){
             searchList = new ArrayList<>();
+            KakaoMapSearch newKakaoSearch = KakaoMapSearch.builder()
+                    .createdDate(new Date())
+                    .userid(command.getUserId())
+                    .build();
+
             searchList.add(newKakaoSearch);
         }
         kaKaoMapOffer.update(kaKaoMapInfos, searchList);
         kakaoMapOfferRepository.save(kaKaoMapOffer);
-
-
-        return result;
     }
 
     @Override
