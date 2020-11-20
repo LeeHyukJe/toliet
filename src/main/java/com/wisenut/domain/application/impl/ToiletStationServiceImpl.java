@@ -2,6 +2,7 @@ package com.wisenut.domain.application.impl;
 
 import com.wisenut.domain.application.ToiletStationService;
 import com.wisenut.domain.application.commands.SearchCommand;
+import com.wisenut.domain.common.event.DomainEventPublisher;
 import com.wisenut.domain.model.IMapInfo;
 import com.wisenut.domain.model.IMapOffer;
 import com.wisenut.domain.model.IUser;
@@ -10,6 +11,7 @@ import com.wisenut.domain.model.kakaomap.KaKaoMapOffer;
 import com.wisenut.domain.model.kakaomap.KakaoMapSearch;
 import com.wisenut.domain.model.kakaomap.KaKaoMapInfoRepository;
 import com.wisenut.domain.model.kakaomap.KakaoMapOfferRepository;
+import com.wisenut.domain.model.kakaomap.events.KakaoMapSearchEvent;
 import com.wisenut.domain.model.user.User;
 import com.wisenut.domain.model.user.UserRepository;
 import lombok.extern.log4j.Log4j2;
@@ -26,18 +28,18 @@ import java.util.List;
 public class ToiletStationServiceImpl implements ToiletStationService {
 
     private User user;
-    private IMapOffer iMapOffer;
+    private KaKaoMapOffer kaKaoMapOffer;
     private KaKaoMapInfoRepository kaKaoMapInfoRepository;
     private KakaoMapOfferRepository kakaoMapOfferRepository;
     private DomainEventPublisher domainEventPublisher;
 
 
-    public ToiletStationServiceImpl(User user, IMapOffer iMapOffer,
+    public ToiletStationServiceImpl(User user, KaKaoMapOffer kaKaoMapOffer,
                                     KaKaoMapInfoRepository kaKaoMapInfoRepository
                                     , KakaoMapOfferRepository kakaoMapOfferRepository
                                     , DomainEventPublisher domainEventPublisher){
         this.user = user;
-        this.iMapOffer = iMapOffer;
+        this.kaKaoMapOffer = kaKaoMapOffer;
         this.kaKaoMapInfoRepository = kaKaoMapInfoRepository;
         this.kakaoMapOfferRepository = kakaoMapOfferRepository;
         this.domainEventPublisher = domainEventPublisher;
@@ -48,7 +50,7 @@ public class ToiletStationServiceImpl implements ToiletStationService {
      */
     @Override
     public void createToiletStation() {
-        List<String> stationNames = iMapOffer.collectMapInfo();
+        List<String> stationNames = kaKaoMapOffer.collectMapInfo();
         List<KaKaoMapInfo> list = new ArrayList<>();
         for(String name: stationNames){
             SearchCommand command = SearchCommand.builder().stationName(name).build();
@@ -74,34 +76,43 @@ public class ToiletStationServiceImpl implements ToiletStationService {
 
     @Transactional
     @Override
-    public String searchNearestStationName(SearchCommand command){
+    public String searchNearestStationName(SearchCommand command) {
         // DB에서 해당 역 정보들 모두 가져오기
         //createToiletStation();
         List<KaKaoMapInfo> kaKaoMapInfos = kaKaoMapInfoRepository.findAll();
 
         // DB와 현재 위치 좌표를 계산해서 가장 가까운 역 찾기 (두 점 사이의 거리 계산)
-        String result = iMapOffer.calculateDistance(kaKaoMapInfos, command.getX(), command.getY());
+        String result = kaKaoMapOffer.calculateDistance(kaKaoMapInfos, command.getX(), command.getY());
+        storeSearchHistory(command);
+
+        return result;
+
+    }
 
     public void storeSearchHistory(SearchCommand command){
         List<KaKaoMapInfo> kaKaoMapInfos = kaKaoMapInfoRepository.findAll();
 
         KaKaoMapOffer kaKaoMapOffer = kakaoMapOfferRepository.findByType("kakao");
         List<KakaoMapSearch> searchList = kaKaoMapOffer.getSearchList();
+
+        KakaoMapSearch newKakaoSearch = KakaoMapSearch.builder()
+                .createdDate(new Date())
+                .userid(command.getUserId())
+                .mapid(kaKaoMapOffer.getId())
+                .build();
+
+
+
         if(searchList == null){
             searchList = new ArrayList<>();
-            KakaoMapSearch newKakaoSearch = KakaoMapSearch.builder()
-                    .createdDate(new Date())
-                    .userid(command.getUserId())
-                    .build();
-
             searchList.add(newKakaoSearch);
         }
+
+        searchList.add(newKakaoSearch);
         kaKaoMapOffer.update(kaKaoMapInfos, searchList);
         kakaoMapOfferRepository.save(kaKaoMapOffer);
 
         domainEventPublisher.publish(new KakaoMapSearchEvent(kaKaoMapOffer));
-
-        return result;
     }
 
     @Override
@@ -109,4 +120,5 @@ public class ToiletStationServiceImpl implements ToiletStationService {
         KaKaoMapInfo kaKaoMapInfo = kaKaoMapInfoRepository.findById(1l).orElse(null);
         return kaKaoMapInfo;
     }
+
 }
