@@ -2,7 +2,6 @@ package com.wisenut.domain.application.impl;
 
 import com.wisenut.domain.application.ToiletStationService;
 import com.wisenut.domain.application.commands.SearchCommand;
-import com.wisenut.domain.common.event.DomainEventPublisher;
 import com.wisenut.domain.model.IMapInfo;
 import com.wisenut.domain.model.IMapOffer;
 import com.wisenut.domain.model.IUser;
@@ -11,7 +10,6 @@ import com.wisenut.domain.model.kakaomap.KaKaoMapOffer;
 import com.wisenut.domain.model.kakaomap.KakaoMapSearch;
 import com.wisenut.domain.model.kakaomap.KaKaoMapInfoRepository;
 import com.wisenut.domain.model.kakaomap.KakaoMapOfferRepository;
-import com.wisenut.domain.model.kakaomap.events.KakaoMapSearchEvent;
 import com.wisenut.domain.model.user.User;
 import com.wisenut.domain.model.user.UserRepository;
 import lombok.extern.log4j.Log4j2;
@@ -84,16 +82,18 @@ public class ToiletStationServiceImpl implements ToiletStationService {
         // DB와 현재 위치 좌표를 계산해서 가장 가까운 역 찾기 (두 점 사이의 거리 계산)
         String result = iMapOffer.calculateDistance(kaKaoMapInfos, command.getX(), command.getY());
 
-        KakaoMapSearch newKakaoSearch = KakaoMapSearch.builder()
-                .createdDate(new Date())
-                .userid(command.getUserId())
-                .build();
+    public void storeSearchHistory(SearchCommand command){
+        List<KaKaoMapInfo> kaKaoMapInfos = kaKaoMapInfoRepository.findAll();
 
         KaKaoMapOffer kaKaoMapOffer = kakaoMapOfferRepository.findByType("kakao");
-        // null 처리 해야 함
         List<KakaoMapSearch> searchList = kaKaoMapOffer.getSearchList();
         if(searchList == null){
             searchList = new ArrayList<>();
+            KakaoMapSearch newKakaoSearch = KakaoMapSearch.builder()
+                    .createdDate(new Date())
+                    .userid(command.getUserId())
+                    .build();
+
             searchList.add(newKakaoSearch);
         }
         kaKaoMapOffer.update(kaKaoMapInfos, searchList);
