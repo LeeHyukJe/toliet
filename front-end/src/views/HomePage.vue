@@ -36,9 +36,10 @@
       <div class="boards-section">
         <h2 class="section-title">개찰구 내 화장실 찾기</h2>
         <button @click="findToilet">찾기</button>
-        <div v-bind="toiletPosition"></div>
+        <div v-for="toilet in toiletPosition" v-bind:key="toilet">
+          <p>{{toilet}}</p>
+        </div>
         <div id="map" style="width:500px; height:400px;"></div>
-        <button>찾기</button>
       </div>
     </div>
     <CreateBoardModal
@@ -55,7 +56,6 @@ import PageHeader from '@/components/PageHeader.vue'
 import { mapGetters } from 'vuex'
 import CreateBoardModal from '@/modals/CreateBoardModal.vue'
 import CreateTeamModal from '@/modals/CreateTeamModal.vue'
-import toiletService from '@/services/toilet'
 
 export default {
   name: 'HomePage',
@@ -100,9 +100,7 @@ export default {
       return map
     },
     findToilet () {
-      toiletService.findToilet(this.initMap()).then((mapInfo) => {
-        this.$store.dispatch('')
-      })
+      this.$store.dispatch('getMapInfo', this.initMap())
     }
   },
   mounted () {
