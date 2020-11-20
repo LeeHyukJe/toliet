@@ -2,6 +2,7 @@ package com.wisenut.domain.application.impl;
 
 import com.wisenut.domain.application.ToiletStationService;
 import com.wisenut.domain.application.commands.SearchCommand;
+import com.wisenut.domain.common.event.DomainEventPublisher;
 import com.wisenut.domain.model.IMapInfo;
 import com.wisenut.domain.model.IMapOffer;
 import com.wisenut.domain.model.IUser;
@@ -10,6 +11,7 @@ import com.wisenut.domain.model.kakaomap.KaKaoMapOffer;
 import com.wisenut.domain.model.kakaomap.KakaoMapSearch;
 import com.wisenut.domain.model.kakaomap.KaKaoMapInfoRepository;
 import com.wisenut.domain.model.kakaomap.KakaoMapOfferRepository;
+import com.wisenut.domain.model.kakaomap.events.KakaoMapSearchEvent;
 import com.wisenut.domain.model.user.User;
 import com.wisenut.domain.model.user.UserRepository;
 import lombok.extern.log4j.Log4j2;
@@ -29,17 +31,18 @@ public class ToiletStationServiceImpl implements ToiletStationService {
     private IMapOffer iMapOffer;
     private KaKaoMapInfoRepository kaKaoMapInfoRepository;
     private KakaoMapOfferRepository kakaoMapOfferRepository;
-    private UserRepository userRepository;
+    private DomainEventPublisher domainEventPublisher;
+
 
     public ToiletStationServiceImpl(User user, IMapOffer iMapOffer,
                                     KaKaoMapInfoRepository kaKaoMapInfoRepository
                                     , KakaoMapOfferRepository kakaoMapOfferRepository
-                                    , UserRepository userRepository){
+                                    , DomainEventPublisher domainEventPublisher){
         this.user = user;
         this.iMapOffer = iMapOffer;
         this.kaKaoMapInfoRepository = kaKaoMapInfoRepository;
         this.kakaoMapOfferRepository = kakaoMapOfferRepository;
-        this.userRepository = userRepository;
+        this.domainEventPublisher = domainEventPublisher;
     }
 
     /**
@@ -96,6 +99,7 @@ public class ToiletStationServiceImpl implements ToiletStationService {
         kaKaoMapOffer.update(kaKaoMapInfos, searchList);
         kakaoMapOfferRepository.save(kaKaoMapOffer);
 
+        domainEventPublisher.publish(new KakaoMapSearchEvent(kaKaoMapOffer));
 
         return result;
     }
