@@ -37,7 +37,7 @@
         <h2 class="section-title">개찰구 내 화장실 찾기</h2>
         <button @click="findToilet">찾기</button>
         <div v-for="toilet in toiletPosition" v-bind:key="toilet">
-          <p>{{toilet}}</p>
+          현재 위치에서 가장 가까운 화장실이 있는 역은 <p>{{toilet}} 역 입니다!!!!!</p>
         </div>
         <div id="map" style="width:500px; height:400px;"></div>
       </div>
@@ -115,15 +115,6 @@ export default {
         }).catch((error) => {
           console.log(error)
         })
-        // navigator.geolocation.getCurrentPosition(position => {
-        //   const lat = position.coords.latitude
-        //   const lon = position.coords.longitude
-        //
-        //   locPosition = new kakao.maps.LatLng(lat, lon)
-        //   message = '<div style="padding:5px;">여기에 계신가요?!</div>'
-        //
-        //   this.displayMarker(locPosition, message, map)
-        // })
       } else {
         return getPosition().then((position) => {
           locPosition = new kakao.maps.LatLng(33.450701, 126.570667)
@@ -132,14 +123,7 @@ export default {
         }).catch((error) => {
           console.log(error)
         })
-        // locPosition = new kakao.maps.LatLng(33.450701, 126.570667)
-        // message = 'geolocation을 사용할수 없어요..'
-
-        // this.displayMarker(locPosition, message, map)
       }
-      // 마커추가
-      // const marker = new kakao.maps.Marker({ position: map.getCenter() })
-      // marker.setMap(map)
     },
     displayMarker (locPosition, message, map) {
       // 마커를 생성합니다
