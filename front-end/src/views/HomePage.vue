@@ -94,9 +94,74 @@ export default {
       const container = document.getElementById('map')
       const options = { center: new kakao.maps.LatLng(33.450701, 126.570667), level: 3 }
       const map = new kakao.maps.Map(container, options) // 맵 생성
+      let locPosition
+      let message
+
+      const getPosition = function (options) {
+        return new Promise((resolve, reject) => {
+          navigator.geolocation.getCurrentPosition(resolve, reject, options)
+        })
+      }
+
+      if (navigator.geolocation) {
+        return getPosition().then((position) => {
+          const lat = position.coords.latitude
+          const lon = position.coords.longitude
+
+          locPosition = new kakao.maps.LatLng(lat, lon)
+          message = '<div style="padding:5px;">여기에 계신가요?!</div>'
+
+          return this.displayMarker(locPosition, message, map)
+        }).catch((error) => {
+          console.log(error)
+        })
+        // navigator.geolocation.getCurrentPosition(position => {
+        //   const lat = position.coords.latitude
+        //   const lon = position.coords.longitude
+        //
+        //   locPosition = new kakao.maps.LatLng(lat, lon)
+        //   message = '<div style="padding:5px;">여기에 계신가요?!</div>'
+        //
+        //   this.displayMarker(locPosition, message, map)
+        // })
+      } else {
+        return getPosition().then((position) => {
+          locPosition = new kakao.maps.LatLng(33.450701, 126.570667)
+          message = 'geolocation을 사용할수 없어요..'
+          return this.displayMarker(locPosition, message, map)
+        }).catch((error) => {
+          console.log(error)
+        })
+        // locPosition = new kakao.maps.LatLng(33.450701, 126.570667)
+        // message = 'geolocation을 사용할수 없어요..'
+
+        // this.displayMarker(locPosition, message, map)
+      }
       // 마커추가
-      const marker = new kakao.maps.Marker({ position: map.getCenter() })
-      marker.setMap(map)
+      // const marker = new kakao.maps.Marker({ position: map.getCenter() })
+      // marker.setMap(map)
+    },
+    displayMarker (locPosition, message, map) {
+      // 마커를 생성합니다
+      const marker = new kakao.maps.Marker({
+        map: map,
+        position: locPosition
+      })
+
+      const iwContent = message // 인포윈도우에 표시할 내용
+      const iwRemoveable = true
+
+      // 인포윈도우를 생성합니다
+      const infowindow = new kakao.maps.InfoWindow({
+        content: iwContent,
+        removable: iwRemoveable
+      })
+
+      // 인포윈도우를 마커위에 표시합니다
+      infowindow.open(map, marker)
+
+      // 지도 중심좌표를 접속위치로 변경합니다
+      map.setCenter(locPosition)
       return map
     },
     findToilet () {

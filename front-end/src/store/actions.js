@@ -16,7 +16,11 @@ export const addBoard = ({ commit }, board) => {
 }
 
 export const getMapInfo = ({ commit }, mapInfo) => {
-  toiletService.findToilet(mapInfo).then(mapInfo => {
-    commit('addMapInfo', mapInfo)
+  mapInfo.then((result) => {
+    toiletService.findToilet(result).then(mapInfo => {
+      commit('addMapInfo', mapInfo)
+    })
+  }).catch((error) => {
+    console.log(error)
   })
 }
