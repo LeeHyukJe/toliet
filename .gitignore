@@ -39,7 +39,7 @@ pom.xml
 application-dev.properties
 
 # test/resources/applciation-properties 제거
-src/test/resources/application.properties
+src/test/resources
 
 src/main/resources/static/css/
 src/main/resources/static/favicon.ico
