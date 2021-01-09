@@ -36,9 +36,10 @@
       <div class="boards-section">
         <h2 class="section-title">개찰구 내 화장실 찾기</h2>
         <button @click="findToilet">찾기</button>
-        <div v-bind="toiletPosition"></div>
+        <div v-for="toilet in toiletPosition" v-bind:key="toilet">
+          현재 위치에서 가장 가까운 화장실이 있는 역은 <p>{{toilet}} 역 입니다!!!!!</p>
+        </div>
         <div id="map" style="width:500px; height:400px;"></div>
-        <button>찾기</button>
       </div>
     </div>
     <CreateBoardModal
@@ -55,7 +56,6 @@ import PageHeader from '@/components/PageHeader.vue'
 import { mapGetters } from 'vuex'
 import CreateBoardModal from '@/modals/CreateBoardModal.vue'
 import CreateTeamModal from '@/modals/CreateTeamModal.vue'
-import toiletService from '@/services/toilet'
 
 export default {
   name: 'HomePage',
@@ -94,15 +94,62 @@ export default {
       const container = document.getElementById('map')
       const options = { center: new kakao.maps.LatLng(33.450701, 126.570667), level: 3 }
       const map = new kakao.maps.Map(container, options) // 맵 생성
-      // 마커추가
-      const marker = new kakao.maps.Marker({ position: map.getCenter() })
-      marker.setMap(map)
+      let locPosition
+      let message
+
+      const getPosition = function (options) {
+        return new Promise((resolve, reject) => {
+          navigator.geolocation.getCurrentPosition(resolve, reject, options)
+        })
+      }
+
+      if (navigator.geolocation) {
+        return getPosition().then((position) => {
+          const lat = position.coords.latitude
+          const lon = position.coords.longitude
+
+          locPosition = new kakao.maps.LatLng(lat, lon)
+          message = '<div style="padding:5px;">여기에 계신가요?!</div>'
+
+          return this.displayMarker(locPosition, message, map)
+        }).catch((error) => {
+          console.log(error)
+        })
+      } else {
+        return getPosition().then((position) => {
+          locPosition = new kakao.maps.LatLng(33.450701, 126.570667)
+          message = 'geolocation을 사용할수 없어요..'
+          return this.displayMarker(locPosition, message, map)
+        }).catch((error) => {
+          console.log(error)
+        })
+      }
+    },
+    displayMarker (locPosition, message, map) {
+      // 마커를 생성합니다
+      const marker = new kakao.maps.Marker({
+        map: map,
+        position: locPosition
+      })
+
+      const iwContent = message // 인포윈도우에 표시할 내용
+      const iwRemoveable = true
+
+      // 인포윈도우를 생성합니다
+      const infowindow = new kakao.maps.InfoWindow({
+        content: iwContent,
+        removable: iwRemoveable
+      })
+
+      // 인포윈도우를 마커위에 표시합니다
+      infowindow.open(map, marker)
+
+      // 지도 중심좌표를 접속위치로 변경합니다
+      map.setCenter(locPosition)
       return map
     },
     findToilet () {
-      toiletService.findToilet(this.initMap()).then((mapInfo) => {
-        this.$store.dispatch('')
-      })
+      this.$store.dispatch('getMapInfo', this.initMap())
     }
   },
   mounted () {

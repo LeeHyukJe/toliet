@@ -1,6 +1,7 @@
-package com.wisenut.domain.common.event;
+package com.wisenut.domain.model.user.event;
 
 
+import com.wisenut.domain.common.event.DomainEvent;
 import com.wisenut.domain.model.user.User;
 import org.springframework.util.Assert;
 
