@@ -35,11 +35,8 @@ build/
 ## pom.xml 제거
 pom.xml
 
-## application-dev.properties 제거
-application-dev.properties
-
-# test/resources/applciation-properties 제거
-src/test/resources
+## application.properties 제거
+application.properties
 
 src/main/resources/static/css/
 src/main/resources/static/favicon.ico
