@@ -3,7 +3,7 @@ package com.wisenut.toliet.domain.application.impl;
 import com.wisenut.domain.application.commands.RegistrationCommand;
 import com.wisenut.domain.application.impl.UserServiceImpl;
 import com.wisenut.domain.common.event.DomainEventPublisher;
-import com.wisenut.domain.common.event.UserRegisteredEvent;
+import com.wisenut.domain.model.user.event.UserRegisteredEvent;
 import com.wisenut.domain.common.mail.MailManager;
 import com.wisenut.domain.common.mail.MessageVariable;
 import com.wisenut.domain.model.user.*;

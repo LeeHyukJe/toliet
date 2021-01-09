@@ -7,7 +7,7 @@ public abstract class DomainEvent extends ApplicationEvent {
         super(source);
     }
 
-    public long occuredAt(){
+    public long occurredAt(){
         return getTimestamp();
     }
 }

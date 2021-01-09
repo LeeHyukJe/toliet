@@ -1,8 +1,10 @@
 package com.wisenut.web.apis;
 
+import com.wisenut.domain.common.security.CurrentUser;
 import com.wisenut.domain.model.IMapInfo;
 import com.wisenut.domain.application.ToiletStationService;
 import com.wisenut.domain.model.kakaomap.KaKaoMapInfo;
+import com.wisenut.domain.model.user.SimpleUser;
 import com.wisenut.web.payload.SearchPayload;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,9 +37,9 @@ public class ToiletSearchAPIController {
     }
 
     @PostMapping("/api/calculation/distance")
-    public ResponseEntity<String> calculateDistance(@RequestBody SearchPayload payload){
+    public ResponseEntity<String> calculateDistance(@RequestBody SearchPayload payload, @CurrentUser SimpleUser user){
         try{
-
+            payload.setUserId(user.getUserId());
             String iMapInfo = toiletStationService.searchNearestStationName(payload.toCommand());
             return new ResponseEntity(iMapInfo,HttpStatus.OK);
         }catch (Exception e){

@@ -9,5 +9,8 @@ export default {
   },
   addBoards (state, board) {
     state.boards.push(board)
+  },
+  addMapInfo (state, mapInfo) {
+    state.toilets.push(mapInfo)
   }
 }

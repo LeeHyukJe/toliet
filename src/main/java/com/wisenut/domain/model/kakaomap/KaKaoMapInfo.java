@@ -42,7 +42,4 @@ public class KaKaoMapInfo implements IMapInfo {
     private String x;
     private String y;
 
-    // map foreign key
-    private Long mapid;
-
 }
