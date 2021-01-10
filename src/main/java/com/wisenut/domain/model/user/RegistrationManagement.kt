@@ -1,32 +1,25 @@
-package com.wisenut.domain.model.user;
+package com.wisenut.domain.model.user
 
-import com.wisenut.domain.common.security.PasswordEncryptor;
-import org.springframework.stereotype.Component;
+import com.wisenut.domain.common.security.PasswordEncryptor
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Component
 
 @Component
-public class RegistrationManagement {
-    private UserRepository repository;
-    private PasswordEncryptor passwordEncryptor;
-
-    public RegistrationManagement(UserRepository repository, PasswordEncryptor passwordEncryptor){
-        this.repository = repository;
-        this.passwordEncryptor = passwordEncryptor;
-    }
-
-    public User register(String username, String emailAddress, String password) throws RegistrationException{
-        User existingUser = repository.findByUsername(username);
-        if(existingUser !=null ){
-            throw new UsernameExistsException();
+class RegistrationManagement (private val repository: UserRepository,
+                              private val passwordEncryptor: PasswordEncryptor) {
+    @Throws(RegistrationException::class)
+    fun register(username: String?, emailAddress: String, password: String?): User {
+        var existingUser: User = repository.findByUsername(username)
+        if (existingUser != null) {
+            throw UsernameExistsException()
         }
-
-        existingUser = repository.findByEmailAddress(emailAddress.toLowerCase());
-        if(existingUser !=null){
-            throw new EmailAddressExistsException();
+        existingUser = repository.findByEmailAddress(emailAddress.toLowerCase())
+        if (existingUser != null) {
+            throw EmailAddressExistsException()
         }
-
-        String encryptedPassword = passwordEncryptor.encrypt(password);
-        User newUser = User.create(username, emailAddress.toLowerCase(), encryptedPassword);
-        repository.save(newUser);
-        return newUser;
+        val encryptedPassword: String = passwordEncryptor.encrypt(password)
+        val newUser: User = User.create(username, emailAddress.toLowerCase(), encryptedPassword)
+        repository.save(newUser)
+        return newUser
     }
 }
