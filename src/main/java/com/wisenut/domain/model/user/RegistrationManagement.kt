@@ -1,7 +1,6 @@
 package com.wisenut.domain.model.user
 
 import com.wisenut.domain.common.security.PasswordEncryptor
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 @Component
