@@ -105,8 +105,7 @@ public class KaKaoMapOffer implements IMapOffer {
 //            System.out.println(tolietInStations.stream().distinct().collect(Collectors.toList()));
 
 
-            List<String> toiletInStation = tolietInStations.stream().distinct().collect(Collectors.toList());
-            return toiletInStation;
+            return tolietInStations.stream().distinct().collect(Collectors.toList());
 
         } catch (IOException e) {
             // TODO Auto-generated catch block
