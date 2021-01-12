@@ -8,7 +8,7 @@ class RegistrationManagement (private val repository: UserRepository,
                               private val passwordEncryptor: PasswordEncryptor) {
     @Throws(RegistrationException::class)
     fun register(username: String?, emailAddress: String, password: String?): User {
-        var existingUser: User = repository.findByUsername(username)
+        var existingUser = repository.findByUsername(username)
         if (existingUser != null) {
             throw UsernameExistsException()
         }

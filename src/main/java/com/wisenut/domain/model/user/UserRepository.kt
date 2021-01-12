@@ -1,9 +1,8 @@
-package com.wisenut.domain.model.user;
+package com.wisenut.domain.model.user
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaRepository
 
-public interface UserRepository extends JpaRepository<User, Long> {
-
-    User findByUsername(String username);
-    User findByEmailAddress(String emailAddress);
+interface UserRepository : JpaRepository<User?, Long?> {
+    fun findByUsername(username: String?): User?
+    fun findByEmailAddress(emailAddress: String?): User?
 }

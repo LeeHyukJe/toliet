@@ -5,7 +5,6 @@ import com.wisenut.domain.application.commands.SearchCommand;
 import com.wisenut.domain.common.event.DomainEventPublisher;
 import com.wisenut.domain.model.IMapInfo;
 import com.wisenut.domain.model.IMapOffer;
-import com.wisenut.domain.model.IUser;
 import com.wisenut.domain.model.kakaomap.KaKaoMapInfo;
 import com.wisenut.domain.model.kakaomap.KaKaoMapOffer;
 import com.wisenut.domain.model.kakaomap.KakaoMapSearch;
@@ -13,10 +12,8 @@ import com.wisenut.domain.model.kakaomap.KaKaoMapInfoRepository;
 import com.wisenut.domain.model.kakaomap.KakaoMapOfferRepository;
 import com.wisenut.domain.model.kakaomap.events.KakaoMapSearchEvent;
 import com.wisenut.domain.model.user.User;
-import com.wisenut.domain.model.user.UserRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
